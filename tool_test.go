@@ -97,7 +97,7 @@ func TestTcp(t *testing.T) {
 	ctx = context.TODO()
 	ctx = context.WithValue(ctx, "method", "GET")
 	var conn net.Conn
-	conn, err = d.DialContext(ctx, "tcp", "47.52.105.170:80")
+	conn, err = d.DialContext(ctx, "tcp", "127.0.0.1:80")
 	//conn, err := net.Dial("tcp", "47.52.105.170:80")
 	if err != nil {
 		fmt.Println("net.Dialt err", err)
@@ -106,7 +106,7 @@ func TestTcp(t *testing.T) {
 	defer conn.Close()
 	msg := "GET /index.html \r\n"
 	msg += "HEAD /HTTP/1.1\r\n"
-	msg += "47.52.105.170:80\r\n"
+	msg += "127.0.0.1:80\r\n"
 	msg += "Connection: close\r\n"
 	msg += "Content-Type: text/html;charset=utf-8\r\n"
 	msg += "\r\n\r\n"
