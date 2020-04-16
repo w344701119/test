@@ -5,6 +5,7 @@ import (
 	"context"
 	"fmt"
 	"net"
+	"reflect"
 	"runtime"
 	"sort"
 	"strings"
@@ -372,4 +373,44 @@ func TestUnsafe(t *testing.T) {
 	t.Log(*b)
 	var c float64 = 6
 	t.Log(*b + c)
+}
+
+type ReflectStruct struct {
+	Id   int    `json:"id"`
+	Name string `json:"name"`
+}
+
+func TestReflect(t *testing.T) {
+
+	var nn = "3333"
+	var a *ReflectStruct
+	var rey = reflect.TypeOf(a)
+	var e = rey.Elem()
+	t.Log(e.Kind())
+	name, b := e.FieldByName("Name")
+	if b {
+		t.Log(name.Name)
+		t.Log(name.Tag)
+	} else {
+		t.Log("not found field name")
+	}
+	var vaPt = reflect.New(e)
+	t.Log(vaPt)
+	//var na = va.FieldByName("Name")
+	var va = vaPt.Elem()
+	var na = va.FieldByName("Name")
+	if b = na.CanSet(); b {
+		t.Log("can set ")
+		na.Set(reflect.ValueOf(nn))
+	} else {
+		t.Log("can not set")
+	}
+	t.Log(va)
+	//var rev = reflect.ValueOf(a)
+	//
+	////var na = rev.FieldByName("Name")
+	//
+	//var ee = rev.Elem()
+	//
+	//t.Log(ee)
 }
