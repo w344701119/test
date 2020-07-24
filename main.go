@@ -1,54 +1,58 @@
-// All material is licensed under the Apache License Version 2.0, January 2004
-// http://www.apache.org/licenses/LICENSE-2.0
-
-// Sample program that takes a stream of bytes and looks for the bytes
-// “elvis” and when they are found, replace them with “Elvis”. The code
-// cannot assume that there are any line feeds or other delimiters in the
-// stream and the code must assume that the stream is of any arbitrary length.
-// The solution cannot meaningfully buffer to the end of the stream and
-// then process the replacement.
 package main
 
-import (
-	"fmt"
-	"log"
-	"net/http"
-	"time"
-)
-
-
-
-func main() {
-	mux:=new (http.ServeMux)
-	mux.HandleFunc("/test", func(writer http.ResponseWriter, request *http.Request) {
-		_,err:=writer.Write([]byte("11111"));
-		fmt.Println(err);
-	})
-	s := &http.Server{
-		Addr:           ":3001",
-		Handler:        mux,
-		ReadTimeout:    10 * time.Second,
-		WriteTimeout:   10 * time.Second,
-		MaxHeaderBytes: 1 << 20,
-	}
-	log.Fatal(s.ListenAndServe())
-
-}
-
-
-//type MuxHandle struct {
+//func main() {
+//	param := os.Args
+//	if len(param) < 2 {
+//		fmt.Println("Invalid parameter")
+//		return
+//	}
+//	var chartFile string = param[1]
+//	var saveFile string = param[2]
+//	chartFile = strings.TrimSpace(chartFile)
+//	saveFile = strings.TrimSpace(saveFile)
+//	if chartFile == "" || saveFile == "" {
+//		fmt.Println("chart file or save file is empty")
+//		os.Exit(0)
+//	}
+//	_, e := os.Stat(chartFile)
+//	if e != nil {
+//		fmt.Println("FILE：", chartFile, "does not exist")
+//		os.Exit(0)
+//	}
+//	chat, err := os.Open(chartFile)
+//	if err != nil {
+//		fmt.Println(err.Error())
+//		os.Exit(0)
+//	}
+//	//var saveFile = "./chat.txt"
+//	var sf *os.File
+//	sf, err = os.OpenFile(saveFile, os.O_APPEND|os.O_RDWR, 0766)
+//
+//	if sf == nil {
+//		fmt.Println("open file err", err)
+//		os.Exit(0)
+//	}
+//	//建立缓冲区，把文件内容放到缓冲区中
+//	buf := bufio.NewReader(chat)
+//	reg := regexp.MustCompile("(?U)\"source\":\\s*\"(.*)\"")
+//	for {
+//		//遇到\n结束读取
+//		b, errR := buf.ReadBytes('\n')
+//		if errR != nil {
+//			if errR == io.EOF {
+//				break
+//			}
+//			fmt.Println(errR.Error())
+//		}
+//		s := reg.FindAllString(string(b), 1)
+//		if len(s) > 0 {
+//			str := s[0]
+//			str = strings.Replace(str, "\"source\":", "", 1)
+//			str = strings.TrimSpace(str)
+//			str = strings.Trim(str, "\"")
+//			str = strings.TrimLeft(str, "\"")
+//			_, err = sf.WriteString(str + "\n")
+//		}
+//	}
 //
 //}
-//
-//
-//func(this *MuxHandle) ServeHTTP(rep http.ResponseWriter, req *http.Request){
-//	var err error
-//	//var num int64
-//	fmt.Println(req.URL)
-//	_,err=rep.Write([]byte("11111"))
-//	fmt.Println(err)
-//	http.HandleFunc()
-//}
-
-
-

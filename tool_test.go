@@ -4,7 +4,9 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"html/template"
 	"net"
+	"os"
 	"reflect"
 	"runtime"
 	"sort"
@@ -413,4 +415,37 @@ func TestReflect(t *testing.T) {
 	//var ee = rev.Elem()
 	//
 	//t.Log(ee)
+}
+
+func TestList(t *testing.T) {
+	//var intArr = []int{1, 3, 5, 7, 9, 2, 4, 6, 8, 10, 99, 88, 77, 66, 55, 44, 33, 22, 11}
+
+}
+
+func TestDefer(t *testing.T) {
+	for i := 0; i < 4; i++ {
+		defer fmt.Println(i)
+	}
+}
+
+type Inventory struct {
+	Material string
+	Count    uint
+}
+
+func TestTmp(t *testing.T) {
+	//sweaters := Inventory{"wool", 17}
+	//tmpl, err := template.New("test").Parse("{{.Count}} of {{.Material}}")
+	//if err != nil {
+	//	panic(err)
+	//}
+
+	ty, err := template.New("foo").Parse(`{{define "M"}}Helloo, {{.}}{{end}}`)
+	err = ty.ExecuteTemplate(os.Stdout, "M", "<script>alert('you have been pwned')</script>")
+
+	//err = tmpl.Execute(os.Stdout, sweaters)
+	if err != nil {
+		panic(err)
+	}
+
 }
