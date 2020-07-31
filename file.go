@@ -13,7 +13,7 @@ import (
 var Path = `/webpage/www/video_live/public/channel_resource/channel/image`
 
 //var Path = `F:\wordpress\wp-admin`
-var Qq bool = false
+var Qq = make(chan int)
 
 //设定每次读取的数目
 var Number int = 100
@@ -46,19 +46,21 @@ func main() {
 	//延迟关闭目录
 	defer f.Close()
 	//设定chan容量
-	var ch chan string = make(chan string, 10000)
+	var ch chan string = make(chan string, 3000)
 	go GetFileName(f, ch)
 	go DeleteFileByName(ch)
 	for {
-		if Qq {
-			time.Sleep(time.Second * 600)
-			os.Exit(0)
-		} else {
-			time.Sleep(time.Second * 60)
+		select {
+		case <-time.After(time.Second * 60):
+			fmt.Println("task is runing")
 			continue
+		case <-Qq:
+			os.Exit(0)
 		}
 	}
-
+	//for _ = range time.After(time.Second * 60) {
+	//
+	//}
 	//for {
 	//	//遇到\n结束读取
 	//	nameList, err := f.Readdirnames(10000)
@@ -82,10 +84,11 @@ func main() {
 
 func GetFileName(file *os.File, ch chan string) {
 	for {
+		fmt.Println("begin to read dir names ")
 		nameList, err := file.Readdirnames(Number)
 		if err != nil {
 			if err == io.EOF {
-				Qq = true
+				Qq <- 1
 				break
 			}
 			fmt.Println("err:", err.Error())
@@ -99,13 +102,21 @@ func GetFileName(file *os.File, ch chan string) {
 
 func DeleteFileByName(ch chan string) {
 	var err error
-	for value := range ch {
-		fileName := Path + "/" + value
-		err = os.Remove(fileName)
-		if err == nil {
-			fmt.Println("success to delete:", fileName)
-		} else {
-			fmt.Println("fail to delete:", fileName)
+	for {
+		select {
+		//增加超时机制
+		case <-time.After(time.Second * 5):
+			//超时5秒
+			fmt.Println("time sleep channel length:", len(ch))
+			time.Sleep(time.Second)
+		case value := <-ch:
+			fileName := Path + "/" + value
+			err = os.Remove(fileName)
+			if err == nil {
+				fmt.Println("success to delete:", fileName, " channel length:", len(ch))
+			} else {
+				fmt.Println("fail to delete:", fileName, " channel length:", len(ch))
+			}
 		}
 	}
 
