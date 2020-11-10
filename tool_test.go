@@ -449,3 +449,28 @@ func TestTmp(t *testing.T) {
 	}
 
 }
+
+func Find(target int, s [][]int) bool {
+	if len(s) > 0 {
+
+		for _, value := range s {
+			for _, v := range value {
+				if v == target {
+					return true
+				} else {
+					continue
+				}
+			}
+		}
+	}
+
+	return false
+}
+
+func TestFind(t *testing.T) {
+	var target int = 7
+	var s [][]int = [][]int{[]int{1, 2, 3, 4, 5, 6, 7}, []int{1, 3, 5, 6, 7, 8}}
+
+	var b = Find(target, s)
+	t.Log(b)
+}

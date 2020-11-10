@@ -35,28 +35,28 @@ func handleConn(c net.Conn) {
 	}
 }
 
-//func main() {
-//	var err error
-//	defer func() {
-//		if err == recover() {
-//			fmt.Println(err)
-//		}
-//	}()
-//	var l net.Listener
-//	l, err = net.Listen("tcp", ":8888")
-//	if err != nil {
-//		fmt.Println("listen error:", err)
-//		return
-//	}
-//	for {
-//		var c net.Conn
-//		c, err = l.Accept()
-//		if err != nil {
-//			fmt.Println("accept error:", err)
-//			break
-//		}
-//		// start a new goroutine to handle
-//		// the new connection.
-//		go handleConn(c)
-//	}
-//}
+func main() {
+	var err error
+	defer func() {
+		if err == recover() {
+			fmt.Println(err)
+		}
+	}()
+	var l net.Listener
+	l, err = net.Listen("tcp", ":8888")
+	if err != nil {
+		fmt.Println("listen error:", err)
+		return
+	}
+	for {
+		var c net.Conn
+		c, err = l.Accept()
+		if err != nil {
+			fmt.Println("accept error:", err)
+			break
+		}
+		// start a new goroutine to handle
+		// the new connection.
+		go handleConn(c)
+	}
+}

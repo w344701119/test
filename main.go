@@ -1,5 +1,57 @@
 package main
 
+import (
+	"encoding/xml"
+	"fmt"
+)
+
+type SConfig struct {
+	Name       xml.Name    `xml:"tv"` // 指定最外层的标签为config
+	Programmes []Programme `xml:"programme"`
+}
+
+type Programme struct {
+	Start  string `xml:"start,attr"`
+	Stop   string `xml:"stop,attr"`
+	Remark string `xml:"channel,attr"`
+	Title  string `xml:"title"`
+	Desc   string `xml:"desc"`
+}
+
+func main() {
+
+	var s []byte = []byte{'a', 'b', 'c', 'd'}
+
+	fmt.Println(s)
+
+	modifySlice(s)
+
+	fmt.Println(s)
+
+	//file, err := os.Open("IN.xml") // For read access.
+	//if err != nil {
+	//	fmt.Printf("error: %v", err)
+	//	return
+	//}
+	//defer file.Close()
+	//data, err := ioutil.ReadAll(file)
+	//if err != nil {
+	//	fmt.Printf("error: %v", err)
+	//	return
+	//}
+	//v := SConfig{}
+	//err = xml.Unmarshal(data, &v)
+	//if err != nil {
+	//	fmt.Printf("error: %v", err)
+	//	return
+	//}
+	//fmt.Println(v.Programmes)
+}
+
+func modifySlice(s []byte) {
+	s[0] = 'e'
+}
+
 //func main() {
 //	param := os.Args
 //	if len(param) < 2 {
