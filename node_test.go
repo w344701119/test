@@ -81,7 +81,6 @@ func TestNodes(t *testing.T) {
 	var s2 []int = []int{0}
 	reArr := FetchArr(s1, s2)
 	reArr = CheckArr(reArr)
-	fmt.Print(reArr)
 
 	re := CreateNode(reArr)
 
