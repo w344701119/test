@@ -69,18 +69,15 @@ func MinPathSumExt(grid [][]int) *GridObj {
 				gridList[m] = append(gridList[m], GridObj{grid[m][n], []Grid{{m, n, grid[m][n]}}})
 				continue
 			} else if m == 0 {
-
 				prePath := append(gridList[m][n-1].GridPath, Grid{m, n, grid[m][n]})
 				grid[m][n] = grid[m][n-1] + grid[m][n]
 				gridList[m] = append(gridList[m], GridObj{grid[m][n], prePath})
-
 			} else if n == 0 {
 				tmpPath := append(gridList[m-1][n].GridPath, Grid{m, n, grid[m][n]})
 				grid[m][n] = grid[m-1][n] + grid[m][n]
 				gridList[m] = append(gridList[m], GridObj{grid[m][n], tmpPath})
 			} else {
 				obj := GetMinExt(MinObj{grid[m][n-1] + grid[m][n], m, n - 1}, MinObj{grid[m-1][n] + grid[m][n], m - 1, n})
-
 				tmpPath := append(gridList[obj.M][obj.N].GridPath, Grid{m, n, grid[m][n]})
 				grid[m][n] = obj.Value
 				gridList[m] = append(gridList[m], GridObj{grid[m][n], tmpPath})
@@ -106,7 +103,8 @@ func GetMinExt(x, y MinObj) MinObj {
 }
 
 func TestMinPathSumExt(t *testing.T) {
-	var grid = [][]int{{1, 3, 1}, {1, 5, 1}, {4, 2, 1}}
+	//var grid = [][]int{{1, 3, 1}, {1, 5, 1}, {4, 2, 1}}
+	var grid = [][]int{{1, 2, 3}, {4, 5, 6}}
 	re := MinPathSumExt(grid)
 	fmt.Println(re)
 }
